@@ -30,8 +30,6 @@ class UserInRoom extends React.Component {
   };
 
   render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
-    console.log(this.props.room);
-    console.log(this.state);
 
     if (this.usersVoted === []) {
       return (

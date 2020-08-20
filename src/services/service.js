@@ -188,4 +188,14 @@ export default class Service {
         credentials: 'include'
       });
     };
+
+    changeRoomTimer = async(roomId, newTimer) => {
+      let data = new FormData();
+      data.append('timer', newTimer);
+      await fetch(this._apiBase + 'rooms/' + roomId + '/changeTimer', {
+        method: 'put',
+        body: data,
+        credentials: 'include'
+      });
+    }
 }

@@ -7,6 +7,7 @@ import UsersContainer from '../../users-container';
 import { connect } from 'react-redux';
 import React from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
+import RoomTimer from "../../room-timer";
 
 class Room extends React.Component {
   async componentDidMount(): void {
@@ -41,6 +42,11 @@ class Room extends React.Component {
 
     return (
       <Container>
+        <Row>
+          <Col sm={12}>
+            <RoomTimer room={this.props.currentRoom} currentUserName={this.props.currentUserName} service={this.props.service} />
+          </Col>
+        </Row>
         <Row>
           <Col sm={8}><StoriesContainer service={this.props.service} room={this.props.currentRoom} currentUserName={this.props.currentUserName} /></Col>
           <Col sm={4}><UsersContainer service={this.props.service} room={this.props.currentRoom} currentUserName={this.props.currentUserName} /></Col>

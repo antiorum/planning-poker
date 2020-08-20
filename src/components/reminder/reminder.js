@@ -21,7 +21,7 @@ class Reminder extends React.Component {
   }
 
   getEndTime = () => {
-    if (!this.props.room || !hasActiveDiscussion(this.props.room) || this.props.room.timerDuration == null) return;
+    if (!this.props.room || !hasActiveDiscussion(this.props.room) || this.props.room.timerDuration == null) return undefined;
     const beginning = new Date(getActiveStory(this.props.room).beginning);
     let hoursMinutesSeconds = this.props.room.timerDuration.split(':').map(string => Number.parseInt(string));
 
@@ -50,11 +50,17 @@ class Reminder extends React.Component {
   };
 
    initializeClock = (endTime) => {
-     if (endTime == undefined) return;
-     let remindInterval = setInterval(() => {
+     clearInterval(window.remindInterval);
+     if (endTime == undefined) {
+       this.setState({
+         timeLeft: undefined
+       });
+       return;
+     }
+     window.remindInterval = setInterval(() => {
        let timeLeft = this.getTimeRemaining(endTime);
        if (timeLeft.total <= 0) {
-         clearInterval(remindInterval);
+         clearInterval(window.remindInterval);
        }
        this.setState({
          timeLeft
@@ -63,7 +69,7 @@ class Reminder extends React.Component {
    };
 
    renderTimer = () => {
-     if (this.state.timeLeft == undefined || this.state.timeLeft.total === 0 ) return null;
+     if (this.state.timeLeft == undefined || this.state.timeLeft.total === 0) return null;
 
      return (
        <div className="timer">

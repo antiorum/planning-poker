@@ -23,7 +23,8 @@ class CreateRoom extends React.Component {
     }
     const roomName = document.querySelector('#room-name').value;
     const deckId = document.querySelector('#available-decks').value;
-    const roomId = await service.createRoom('', roomName, '', deckId);
+    const timerDuration = document.querySelector('#timer-duration').value;
+    const roomId = await service.createRoom('', roomName, timerDuration, deckId);
 
     this.props.history.push('/rooms/' + roomId);
   };
@@ -62,6 +63,8 @@ class CreateRoom extends React.Component {
           <input type="text" className="form-input" id="room-name" />
           <label htmlFor="available-decks" className="input-label">Deck</label>
           {this.renderDecks()}
+          <label htmlFor="timer-duration" className="input-label">Timer Duration</label>
+          <input type="time" step={1} className="form-input" id="timer-duration" />
           <Button as="input" type="submit" value="Create Room" size={'sm'} className={'create-room-button'} />
         </form>
       </div>);
