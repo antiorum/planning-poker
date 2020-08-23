@@ -5,7 +5,7 @@ import UsersHeader from '../users-header';
 import Invite from '../invite';
 import { hasActiveDiscussion } from '../../util';
 import { getActiveStoryId } from '../../util/users-util';
-import DiscussionStartOrEnd from '../modal-windows/discussion-start-or-end';
+import UniversalWindow from '../modal-windows/universal-window';
 import React from 'react';
 import { Button } from 'react-bootstrap';
 
@@ -35,8 +35,8 @@ class RoomSidebar extends React.Component {
       return (
         <div className="users-buttons">
           {hasActiveDiscussion(room) && <Button variant='primary' onClick={this.onRestart} size={'sm'}>Reset Discussion</Button>}
-          {hasActiveDiscussion(room) && <DiscussionStartOrEnd title='End Discussion' onSubmit={this.onFinish} buttonText='Finish' modalText={this.endDiscussionModalText} />}
-          {!hasActiveDiscussion(room) && <DiscussionStartOrEnd title='Start Discussion' onSubmit={this.onStart} buttonText='Start' modalText={this.startDiscussionModalText} />}
+          {hasActiveDiscussion(room) && <UniversalWindow title='End Discussion' onSubmit={this.onFinish} buttonText='Finish' modalText={this.endDiscussionModalText} />}
+          {!hasActiveDiscussion(room) && <UniversalWindow title='Start Discussion' onSubmit={this.onStart} buttonText='Start' modalText={this.startDiscussionModalText} />}
         </div>
       );
     }

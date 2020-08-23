@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Modal } from 'react-bootstrap';
 
-const DiscussionStartOrEnd = ({ title, buttonText, onSubmit, modalText }) => {
+const UniversalWindow = ({ title, buttonText, onSubmit, modalText }) => {
   const [ show, setShow ] = React.useState(false);
 
   const handleClose = () => setShow(false);
@@ -27,8 +27,9 @@ const DiscussionStartOrEnd = ({ title, buttonText, onSubmit, modalText }) => {
             Close
           </Button>
           <Button variant="primary" onClick={() => {
-            const themeOrResume = document.getElementById(title).value;
-            onSubmit(themeOrResume);
+            const formValue = document.getElementById(title).value;
+            onSubmit(formValue);
+            handleClose();
           }
           }>
             Submit
@@ -38,4 +39,4 @@ const DiscussionStartOrEnd = ({ title, buttonText, onSubmit, modalText }) => {
     </React.Fragment>);
 };
 
-export default DiscussionStartOrEnd;
+export default UniversalWindow;

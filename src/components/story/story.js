@@ -1,4 +1,5 @@
 import './story.sass';
+import UniversalWindow from '../modal-windows/universal-window';
 import React from 'react';
 import { Button } from 'react-bootstrap';
 
@@ -8,8 +9,7 @@ const Story = ({ id, theme, isCompleted, isOwner, service, room, onSwitch }) => 
     await service.deleteDiscussionResult(room.id, id);
   };
 
-  const onEdit = async() => {
-    let newName = prompt('Введите новое название для этого обсуждения');
+  const onEdit = async(newName) => {
     await service.renameDiscussionResult(room.id, id, newName);
   };
 
@@ -26,7 +26,7 @@ const Story = ({ id, theme, isCompleted, isOwner, service, room, onSwitch }) => 
         </p>
       </div>
       {isCompleted && isOwner && <div className='stories-item-buttons'>
-        <Button className='stories-button' size='sm' onClick={onEdit}>🖉</Button>
+        <UniversalWindow modalText='Input new story theme' onSubmit={onEdit} buttonText='🖉' title='Rename Story' />
         <Button variant='danger' className='stories-button' size='sm' onClick={onDelete}>🗑</Button>
       </div>}
     </div>
