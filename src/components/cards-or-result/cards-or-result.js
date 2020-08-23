@@ -34,57 +34,57 @@ class CardsOrResult extends React.Component {
   };
 
   renderDiscussionResult = () => {
+    const { discussionResult } = this.state;
     return (
       <div>
-        <p>Theme: {this.state.discussionResult.theme}</p>
-        <p>Average mark: {this.state.discussionResult.averageMark}</p>
+        <p>Theme: {discussionResult.theme}</p>
+        <p>Average mark: {discussionResult.averageMark}</p>
         {this.renderUsersMarks()}
-        <p>Resume or comment: {this.state.discussionResult.resume}</p>
+        <p>Resume or comment: {discussionResult.resume}</p>
       </div>
     );
   };
 
   render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
-    if (!this.state.discussionResult || this.state.discussionResult.errors) {
+    const { discussionResult } = this.state;
+    const { service, cards, currentRoom, currentUserName } = this.props;
+
+    if (!discussionResult || discussionResult.errors) {
       return (
-        <p>No active discussion yet.</p>
+        <p>There are no stories yet...</p>
       );
     }
 
-    if (this.state.discussionResult.isCompleted) {
+    if (discussionResult.isCompleted) {
       return this.renderDiscussionResult();
     }
     else {
       let chosenCardId;
-      try {
-        chosenCardId = this.state.discussionResult.usersMarks[this.props.currentUserName].id;
-      }
-      catch (e) {
-
+      if (discussionResult.usersMarks[currentUserName]) {
+        chosenCardId = discussionResult.usersMarks[currentUserName].id;
       }
 
       const clickOnCard = async(cardId) => {
-        await this.props.service.vote(this.props.currentRoom.id, cardId, this.state.discussionResult.id);
+        await service.vote(currentRoom.id, cardId, discussionResult.id);
       };
 
       const renderCards = () => {
-        try {
-          return (
-            <div className="cards-container">
-              {
-                this.props.cards.map((card) => {
-                  const isSelected = chosenCardId === card.id;
-                  return (
-                    <Card key={card.id} id={card.id} name={card.name} value={card.name} isSelected={isSelected} chooseOrChangeCard={async() => { await clickOnCard(card.id); }} />
-                  );
-                })
-              }
-            </div>
-          );
-        }
-        catch {
+        if (!currentRoom) {
           return null;
         }
+
+        return (
+          <div className="cards-container">
+            {
+              cards.map((card) => {
+                const isSelected = chosenCardId === card.id;
+                return (
+                  <Card key={card.id} id={card.id} name={card.name} value={card.name} isSelected={isSelected} chooseOrChangeCard={async() => { await clickOnCard(card.id); }} />
+                );
+              })
+            }
+          </div>
+        );
       };
 
       return renderCards();

@@ -1,17 +1,18 @@
-import './login-modal.sass';
-import { getFetchUserName, createConnectionAndDispatch } from '../../actions';
-import { compose } from '../../util';
-import withService from '../hoc/with-service';
+import './login.sass';
+import { getFetchUserName, createConnectionAndDispatch } from '../../../actions';
+import { compose } from '../../../util';
+import withService from '../../hoc/with-service';
 import React from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
 
-const LoginModal = ({ service, fetchUserName, connectionUp }) => {
+const Login = ({ service, fetchUserName, connectionUp }) => {
   const [ show, setShow ] = React.useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
   const login = async() => {
     const username = document.querySelector('#username-from-modal').value;
     await service.auth(username);
@@ -62,4 +63,4 @@ const mapDispatchToProperties = (dispatch, { service }) => {
 export default compose(
   withService(),
   connect(mapStateToProperties, mapDispatchToProperties)
-)(LoginModal);
+)(Login);

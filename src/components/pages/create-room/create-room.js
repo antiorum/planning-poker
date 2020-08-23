@@ -7,7 +7,6 @@ import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
 
 class CreateRoom extends React.Component {
-
   async componentDidMount(): void {
     await this.props.fetchDecks();
   }

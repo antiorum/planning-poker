@@ -2,7 +2,7 @@ import './app-header.sass';
 import withService from '../hoc/with-service';
 import { compose } from '../../util';
 import { getFetchUserName, getFetchDecks } from '../../actions';
-import LoginModal from '../login-modal';
+import LoginModal from '../modal-windows/login';
 import user from './img/user.png';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -16,10 +16,13 @@ class AppHeader extends React.Component {
   }
 
   onLogout = async() => {
+    if (this.props.currentRoom) {
+      await this.props.service.exitRoom(this.props.currentRoom.id);
+    }
     await this.props.service.logout();
-    await this.props.fetchUserName();
     await this.props.fetchDecks();
     this.props.history.push('/');
+    await this.props.fetchUserName();
   };
 
   render() {
@@ -35,14 +38,16 @@ class AppHeader extends React.Component {
       </div>);
 
     const roomInHeader = this.props.currentRoom === undefined ?
-      (<div className="app-header-room" />) :
-      (<div className="app-header-room">
-        <p>{this.props.currentRoom.name}</p>
-      </div>);
+      null : this.props.currentRoom.name;
+
 
     return (
       <div className='app-header'>
-        {roomInHeader}
+        <div className="app-header-room">
+          <p>
+            {roomInHeader}
+          </p>
+        </div>
         {userInHeader}
       </div>
     );

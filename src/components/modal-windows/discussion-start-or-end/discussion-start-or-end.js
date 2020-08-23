@@ -1,38 +1,36 @@
 import React from 'react';
 import { Button, Modal } from 'react-bootstrap';
 
-const ChangeTimerModal = ({ roomId, service }) => {
+const DiscussionStartOrEnd = ({ title, buttonText, onSubmit, modalText }) => {
   const [ show, setShow ] = React.useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const onChange = async() => {
-    const newTimer = document.querySelector('#new-timer-value').value;
-    await service.changeRoomTimer(roomId, newTimer);
-    setShow(false);
-  };
-
   return (
     <React.Fragment>
-      <Button variant="primary" onClick={handleShow} size={'sm'} id={'show-change-timer-window'}>
-        Change
+      <Button variant="primary" onClick={handleShow} size={'sm'}>
+        {buttonText}
       </Button>
       <Modal show={show} onHide={handleClose} autoFocus={true}>
         <Modal.Header closeButton={true}>
-          <Modal.Title>Login</Modal.Title>
+          <Modal.Title>{title}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Input new timer duration for this room
+          {modalText}
           <br />
-          <input type="time" id="new-timer-value" step={1} />
+          <input type='text' id={title} />
         </Modal.Body>
 
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={onChange}>
+          <Button variant="primary" onClick={() => {
+            const themeOrResume = document.getElementById(title).value;
+            onSubmit(themeOrResume);
+          }
+          }>
             Submit
           </Button>
         </Modal.Footer>
@@ -40,4 +38,4 @@ const ChangeTimerModal = ({ roomId, service }) => {
     </React.Fragment>);
 };
 
-export default ChangeTimerModal;
+export default DiscussionStartOrEnd;

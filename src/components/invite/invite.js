@@ -1,8 +1,8 @@
-import './invite-box.sass';
+import './invite.sass';
 import React from 'react';
 import { Button } from 'react-bootstrap';
 
-const InviteBox = () => {
+const Invite = () => {
   return (
     <div className='invite-box'>
       <h5 className="text-format">
@@ -20,4 +20,4 @@ const onClick = async() => {
   await navigator.clipboard.writeText(document.location.href);
 };
 
-export default InviteBox;
+export default Invite;

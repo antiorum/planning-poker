@@ -9,28 +9,28 @@ const fetchRoomTypeName = 'FETCH_ROOM_REQUEST';
 const usernameLoadedAction = (username) => {
   return {
     type: fetchUsernameTypeName,
-    payload: username
+    username: username
   };
 };
 
 const connectionUpAction = (connection) => {
   return {
     type: connectionUpTypeName,
-    payload: connection
+    connection: connection
   };
 };
 
 const decksLoadedAction = (decks) => {
   return {
     type: fetchDecksTypeName,
-    payload: decks
+    decks: decks
   };
 };
 
 const roomLoadedAction = (room) => {
   return {
     type: fetchRoomTypeName,
-    payload: room
+    room: room
   };
 };
 

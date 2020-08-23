@@ -1,10 +1,10 @@
-import './stories-container.sass';
+import './stories.sass';
 import CardsOrResult from '../cards-or-result';
-import StoryInContainer from '../story-in-container';
+import Story from '../story';
 import StoryHeader from '../story-header';
 import React from 'react';
 
-class StoriesContainer extends React.Component {
+class Stories extends React.Component {
   state = {
     story: undefined
   };
@@ -22,9 +22,11 @@ class StoriesContainer extends React.Component {
   }
 
   getNewStoryAndPushItToState = async() => {
-    if (this.props.room.discussionResults.length > 0) {
-      const id = this.props.room.discussionResults.sort(dr => dr.id).reverse()[0].id;
-      const story = await this.props.service.getDiscussionResult(id);
+    const { room, service } = this.props;
+
+    if (room.discussionResults.length > 0) {
+      const id = room.discussionResults.sort(dr => dr.id).reverse()[0].id;
+      const story = await service.getDiscussionResult(id);
       this.setState({ story });
     }
     else {
@@ -38,30 +40,30 @@ class StoriesContainer extends React.Component {
   };
 
   renderStories = () => {
-    try {
-      return (
-        <div className='stories-body'>
-          {
-            this.props.room.discussionResults.sort(dr => dr.id).map((discussion) => {
-              return (
-                <StoryInContainer key={discussion.id} id={discussion.id} service={this.props.service} theme={discussion.theme} isCompleted={discussion.isCompleted} isOwner={this.props.currentUserName === this.props.room.owner.name} room={this.props.room} onSwitch={this.switchStory} />
-              ) ;
-            })
-          }
-        </div>
-      );
-    }
-    catch {
-      return null;
-    }
+    const { room, service, currentUserName } = this.props;
+    if (!room) return null;
+    return (
+      <div className='stories-body'>
+        {
+          room.discussionResults.sort(dr => dr.id).map((discussion) => {
+            return (
+              <Story key={discussion.id} id={discussion.id} service={service} theme={discussion.theme} isCompleted={discussion.isCompleted} isOwner={currentUserName === room.owner.name} room={room} onSwitch={this.switchStory} />
+            ) ;
+          })
+        }
+      </div>
+    );
   };
 
   render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
+    const { room, service } = this.props;
+    const { story } = this.state;
+
     return (
       <React.Fragment>
         <div className="stories-and-results-wrapper">
-          <StoryHeader room={this.props.room} />
-          <CardsOrResult discussionResult={this.state.story} cards={this.props.room ? this.props.room.deck.cards : []} service={this.props.service} />
+          <StoryHeader room={room} />
+          <CardsOrResult discussionResult={story} cards={room ? room.deck.cards : []} service={service} />
           <div className='stories-container'>
             <div className='stories-header'>
               <p>Stories:</p>
@@ -74,4 +76,4 @@ class StoriesContainer extends React.Component {
   }
 }
 
-export default StoriesContainer;
+export default Stories;

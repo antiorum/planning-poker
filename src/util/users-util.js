@@ -27,6 +27,7 @@ const getActiveStoryId = (room) => {
 };
 
 const getActiveStory = (room) => {
+  if (!room) return;
   let result;
   for (let discussion of room.discussionResults) {
     if (!discussion.isCompleted) result = discussion;

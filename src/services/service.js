@@ -120,7 +120,8 @@ export default class Service {
         body: data,
         credentials: 'include'
       });
-      return result.json();
+      if (!result.ok) return;
+      return await result.json();
     };
 
     getDiscussionResult = async(discussionResultId) => {

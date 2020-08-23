@@ -4,7 +4,7 @@ import './card.sass';
 
 const Card = ({ name, value, isSelected, chooseOrChangeCard }) => {
   let classNames = 'card';
-  if (isSelected) classNames = 'card card-selected';
+  if (isSelected) classNames += ' card-selected';
 
   return (
     <div className={classNames} onClick={chooseOrChangeCard}>

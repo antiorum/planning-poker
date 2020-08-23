@@ -21,9 +21,10 @@ class Reminder extends React.Component {
   }
 
   getEndTime = () => {
-    if (!this.props.room || !hasActiveDiscussion(this.props.room) || this.props.room.timerDuration == null) return undefined;
-    const beginning = new Date(getActiveStory(this.props.room).beginning);
-    let hoursMinutesSeconds = this.props.room.timerDuration.split(':').map(string => Number.parseInt(string));
+    const { room } = this.props;
+    if (!room || !hasActiveDiscussion(room) || room.timerDuration == null) return undefined;
+    const beginning = new Date(getActiveStory(room).beginning);
+    let hoursMinutesSeconds = room.timerDuration.split(':').map(string => Number.parseInt(string));
 
     let ending = beginning;
     ending.setHours(ending.getHours() + hoursMinutesSeconds[0]);
@@ -69,12 +70,13 @@ class Reminder extends React.Component {
    };
 
    renderTimer = () => {
-     if (this.state.timeLeft == undefined || this.state.timeLeft.total === 0) return null;
+     const { timeLeft } = this.state;
+     if (timeLeft == undefined || timeLeft.total === 0) return null;
 
      return (
        <div className="timer">
          <img src={img} alt="timer" height='25' />
-         {('0' + this.state.timeLeft.hours).slice(-2) + ':' + ('0' + this.state.timeLeft.minutes).slice(-2) + ':' + ('0' + this.state.timeLeft.seconds).slice(-2)}
+         {('0' + timeLeft.hours).slice(-2) + ':' + ('0' + timeLeft.minutes).slice(-2) + ':' + ('0' + timeLeft.seconds).slice(-2)}
        </div>);
    };
 

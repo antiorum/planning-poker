@@ -9,10 +9,10 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case fetchUsernameTypeName : return { ...state, currentUserName: action.payload };
-    case connectionUpTypeName: return { ...state, signalRConnection: action.payload };
-    case fetchRoomTypeName: return { ...state, currentRoom: action.payload };
-    case fetchDecksTypeName: return { ...state, availableDecks: action.payload };
+    case fetchUsernameTypeName : return { ...state, currentUserName: action.username };
+    case connectionUpTypeName: return { ...state, signalRConnection: action.connection };
+    case fetchRoomTypeName: return { ...state, currentRoom: action.room };
+    case fetchDecksTypeName: return { ...state, availableDecks: action.decks };
     default: return state;
   }
 };

@@ -1,9 +1,20 @@
 import './users-header.sass';
 import { hasActiveDiscussion, getVotedUsers } from '../../util';
+import { connect } from 'react-redux';
 import React from 'react';
 
-const UsersHeader = ({ room }) => {
-  if (room === undefined) return null;
+const UsersHeader = ({ headerContent }) => {
+  return (
+    <div className='users-header'>{headerContent}</div>
+  );
+};
+
+const mapStateToProperties = ({ currentUserName, currentRoom }) => {
+  return { currentUserName, currentRoom, headerContent: getHeaderContent(currentRoom) };
+};
+
+const getHeaderContent = (room) => {
+  if (room === undefined || room.errors) return null;
   const isActiveDiscussion = hasActiveDiscussion(room);
   const votedUsers = getVotedUsers(room);
 
@@ -26,10 +37,7 @@ const UsersHeader = ({ room }) => {
   else {
     usersHeaderContent = 'Discussion not started yet';
   }
-
-  return (
-    <div className='users-header'>{usersHeaderContent}</div>
-  );
+  return usersHeaderContent;
 };
 
-export default UsersHeader;
+export default connect(mapStateToProperties)(UsersHeader);
