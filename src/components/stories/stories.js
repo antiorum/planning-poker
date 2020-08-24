@@ -10,13 +10,15 @@ class Stories extends React.Component {
   };
 
   async componentDidMount(): void {
-    if (this.props.room) {
+    const { room } = this.props;
+    if (room) {
       await this.getNewStoryAndPushItToState();
     }
   }
 
   async componentDidUpdate(previousProperties: Readonly<P>, previousState: Readonly<S>, snapshot: SS): void {
-    if (previousProperties.room !== this.props.room) {
+    const { room } = this.props;
+    if (previousProperties.room !== room) {
       await this.getNewStoryAndPushItToState();
     }
   }
@@ -35,7 +37,8 @@ class Stories extends React.Component {
   };
 
   switchStory = async(id) => {
-    const story = await this.props.service.getDiscussionResult(id);
+    const { service } = this.props;
+    const story = await service.getDiscussionResult(id);
     this.setState({ story });
   };
 

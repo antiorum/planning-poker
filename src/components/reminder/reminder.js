@@ -22,7 +22,7 @@ class Reminder extends React.Component {
 
   getEndTime = () => {
     const { room } = this.props;
-    if (!room || !hasActiveDiscussion(room) || room.timerDuration == null) return undefined;
+    if (!room || !hasActiveDiscussion(room) || room.timerDuration == null) return;
     const beginning = new Date(getActiveStory(room).beginning);
     let hoursMinutesSeconds = room.timerDuration.split(':').map(string => Number.parseInt(string));
 

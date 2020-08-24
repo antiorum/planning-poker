@@ -16,39 +16,34 @@ class AppHeader extends React.Component {
   }
 
   onLogout = async() => {
-    if (this.props.currentRoom) {
-      await this.props.service.exitRoom(this.props.currentRoom.id);
+    const { currentRoom, service, fetchDecks, history, fetchUserName } = this.props;
+
+    if (currentRoom) {
+      await service.exitRoom(currentRoom.id);
     }
-    await this.props.service.logout();
-    await this.props.fetchDecks();
-    this.props.history.push('/');
-    await this.props.fetchUserName();
+    await service.logout();
+    await fetchDecks();
+    history.push('/');
+    await fetchUserName();
   };
 
   render() {
-    const userInHeader = this.props.currentUserName === '' ?
-      (<div className="app-header-user">
-        <p>You are not logged in yet</p>
-        <LoginModal />
-      </div>) :
-      (<div className="app-header-user">
-        <p>You logged in as: {this.props.currentUserName}</p>
-        <img src={user} alt="user" height={35} />
-        <Button variant={'danger'} onClick={this.onLogout} size={'sm'} className={'header-button'}>Logout</Button>
-      </div>);
-
-    const roomInHeader = this.props.currentRoom === undefined ?
-      null : this.props.currentRoom.name;
-
+    const { currentRoom, currentUserName } = this.props;
 
     return (
       <div className='app-header'>
         <div className="app-header-room">
           <p>
-            {roomInHeader}
+            {currentRoom && currentRoom.name}
           </p>
         </div>
-        {userInHeader}
+        <div className="app-header-user">
+          {currentUserName === '' && <p>You are not logged in yet</p>}
+          {currentUserName === '' && <LoginModal />}
+          {currentUserName !== '' && <p>You logged in as: {currentUserName}</p> }
+          {currentUserName !== '' && <img src={user} alt="user" height={35} />}
+          {currentUserName !== '' && <Button variant={'danger'} onClick={this.onLogout} size={'sm'} className={'header-button'}>Logout</Button>}
+        </div>
       </div>
     );
   }

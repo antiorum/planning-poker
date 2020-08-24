@@ -14,15 +14,18 @@ class RoomSidebar extends React.Component {
   endDiscussionModalText = 'input resume or comments for this discussion';
 
   onStart = async(theme) => {
-    await this.props.service.startDiscussion(this.props.room.id, theme);
+    const { service, room } = this.props;
+    await service.startDiscussion(room.id, theme);
   };
 
   onFinish = async(resume) => {
-    await this.props.service.endDiscussion(this.props.room.id, resume, getActiveStoryId(this.props.room));
+    const { service, room } = this.props;
+    await service.endDiscussion(room.id, resume, getActiveStoryId(this.props.room));
   };
 
   onRestart = async() => {
-    await this.props.service.resetDiscussion(this.props.room.id, getActiveStoryId(this.props.room));
+    const { service, room } = this.props;
+    await service.resetDiscussion(room.id, getActiveStoryId(this.props.room));
   };
 
   renderManagementButtons = () => {
@@ -43,12 +46,14 @@ class RoomSidebar extends React.Component {
   };
 
   render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
+    const { room } = this.props;
+
     return (
       <div className="users-container">
         <div className="members">
-          <UsersHeader room={this.props.room} />
-          <Reminder room={this.props.room} />
-          <Users room={this.props.room} />
+          <UsersHeader room={room} />
+          <Reminder room={room} />
+          <Users room={room} />
           {this.renderManagementButtons()}
         </div>
         <Invite />

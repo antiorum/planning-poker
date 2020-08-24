@@ -33,10 +33,6 @@ class Room extends React.Component {
     }
   }
 
-  componentWillUnmount(): void {
-
-  }
-
   render() {
     const { currentUserName, currentRoom, service } = this.props;
 

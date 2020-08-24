@@ -8,22 +8,25 @@ class CardsOrResult extends React.Component {
   };
 
   async componentDidMount(): void {
+    const { discussionResult } = this.props;
     if (this.props.discussionResult) {
-      this.setState({ discussionResult: this.props.discussionResult });
+      this.setState({ discussionResult });
     }
   }
 
   async componentDidUpdate(previousProperties: Readonly<P>, previousState: Readonly<S>, snapshot: SS): void {
-    if (previousProperties.discussionResult !== this.props.discussionResult) {
-      this.setState({ discussionResult: this.props.discussionResult });
+    const { discussionResult } = this.props;
+    if (previousProperties.discussionResult !== discussionResult) {
+      this.setState({ discussionResult });
     }
   }
 
   renderUsersMarks = () => {
+    const { discussionResult } = this.state;
     return (
       <ul>
         {
-          Object.entries(this.state.discussionResult.usersMarks).map((k) => {
+          Object.entries(discussionResult.usersMarks).map((k) => {
             return (
               <li key={k[0]}>User {k[0]} choose card {k[1].name} with value {k[1].value}</li>
             );

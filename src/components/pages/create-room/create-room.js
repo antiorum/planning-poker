@@ -14,11 +14,11 @@ class CreateRoom extends React.Component {
   onSubmit = async(event) => {
     event.preventDefault();
 
-    const { service, currentUserName } = this.props;
+    const { service, currentUserName, fetchUserName } = this.props;
     const userName = document.querySelector('#owner-name').value;
     if (currentUserName === '') {
       await service.auth(userName);
-      await this.props.fetchUserName();
+      await fetchUserName();
     }
     const roomName = document.querySelector('#room-name').value;
     const deckId = document.querySelector('#available-decks').value;
@@ -38,10 +38,12 @@ class CreateRoom extends React.Component {
   };
 
   renderDecks = () => {
+    const { availableDecks } = this.props;
+
     return (
       <select name="deck" id="available-decks" className="form-input">
         {
-          this.props.availableDecks.map((deck) => {
+          availableDecks.map((deck) => {
             return (
               <option key={deck.id} value={deck.id}>{deck.name}</option>
             );
