@@ -14,12 +14,8 @@ class CreateRoom extends React.Component {
     timerDuration: '00:00:00'
   };
 
-  async componentWillReceiveProps(nextProperties: Readonly<P>, nextContext: any): void {
-    const { currentUserName, fetchDecks } = nextProperties;
-    await fetchDecks();
-    if (currentUserName !== '') {
-      this.setState({ ownerName: currentUserName });
-    }
+  async componentWillMount(): void {
+    await this.props.fetchDecks();
   }
 
   handleChangeOwnerName = (event) => {
@@ -54,7 +50,9 @@ class CreateRoom extends React.Component {
       await service.auth(ownerName);
       await fetchUserName();
     }
-    const roomId = await service.createRoom('', roomName, timerDuration, deck);
+
+    const timerConverted = timerDuration === '00:00:00' ? '' : timerDuration;
+    const roomId = await service.createRoom('', roomName, timerConverted, deck);
 
     this.props.history.push('/rooms/' + roomId);
   };

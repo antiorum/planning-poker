@@ -3,21 +3,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 class CardsOrResult extends React.Component {
-  state = {
-    discussionResult: undefined
-  };
-
-  async componentDidMount(): void {
-    const { discussionResult } = this.props;
-    if (this.props.discussionResult) {
-      this.setState({ discussionResult });
-    }
+  constructor({ discussionResult }) {
+    super();
+    this.state = discussionResult;
   }
 
-  async componentDidUpdate(previousProperties: Readonly<P>, previousState: Readonly<S>, snapshot: SS): void {
+  async componentWillReceiveProps(nextProperties: Readonly<P>, nextContext: any): void {
     const { discussionResult } = this.props;
-    if (previousProperties.discussionResult !== discussionResult) {
-      this.setState({ discussionResult });
+    if (nextProperties.discussionResult !== discussionResult) {
+      this.setState({ discussionResult : nextProperties.discussionResult });
     }
   }
 
@@ -49,6 +43,7 @@ class CardsOrResult extends React.Component {
   };
 
   render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
+    if (!this.state) return null;
     const { discussionResult } = this.state;
     const { service, cards, currentRoom, currentUserName } = this.props;
 

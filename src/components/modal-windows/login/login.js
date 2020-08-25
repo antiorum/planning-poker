@@ -6,7 +6,7 @@ import React from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
-
+//TODO : bind input with state
 const Login = ({ service, fetchUserName, connectionUp }) => {
   const [ show, setShow ] = React.useState(false);
 

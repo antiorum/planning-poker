@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Modal } from 'react-bootstrap';
 
+//TODO : bind input with state
 const ChangeTimer = ({ roomId, service }) => {
   const [ show, setShow ] = React.useState(false);
 
