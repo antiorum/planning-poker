@@ -15,7 +15,18 @@ class CreateRoom extends React.Component {
   };
 
   async componentWillMount(): void {
+    const { currentUserName } = this.props;
+    if (currentUserName) {
+      this.setState({ ownerName : currentUserName });
+    }
     await this.props.fetchDecks();
+  }
+
+  componentDidUpdate(previousProperties: Readonly<P>, previousState: Readonly<S>, snapshot: SS): void {
+    const { currentUserName } = this.props;
+    if (previousProperties.currentUserName !== currentUserName) {
+      this.setState({ ownerName : currentUserName });
+    }
   }
 
   handleChangeOwnerName = (event) => {

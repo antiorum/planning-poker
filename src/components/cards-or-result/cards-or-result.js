@@ -3,15 +3,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 class CardsOrResult extends React.Component {
-  constructor({ discussionResult }) {
-    super();
-    this.state = discussionResult;
-  }
+  state = {
+    discussionResult: undefined
+  };
 
-  async componentWillReceiveProps(nextProperties: Readonly<P>, nextContext: any): void {
-    const { discussionResult } = this.props;
-    if (nextProperties.discussionResult !== discussionResult) {
-      this.setState({ discussionResult : nextProperties.discussionResult });
+  async componentDidUpdate(previousProperties: Readonly<P>, previousState: Readonly<S>, snapshot: SS): void {
+    if (previousProperties.discussionResult !== this.props.discussionResult) {
+      this.setState({ discussionResult : this.props.discussionResult });
     }
   }
 
@@ -43,14 +41,18 @@ class CardsOrResult extends React.Component {
   };
 
   render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
-    if (!this.state) return null;
+
+    const noStories = <p>There are no stories yet...</p>;
+
+    if (!this.state) {
+      return noStories;
+    }
+
     const { discussionResult } = this.state;
     const { service, cards, currentRoom, currentUserName } = this.props;
 
     if (!discussionResult || discussionResult.errors) {
-      return (
-        <p>There are no stories yet...</p>
-      );
+      return noStories;
     }
 
     if (discussionResult.isCompleted) {

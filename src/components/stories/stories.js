@@ -2,6 +2,8 @@ import './stories.sass';
 import CardsOrResult from '../cards-or-result';
 import Story from '../story';
 import StoryHeader from '../story-header';
+import { hasActiveDiscussion } from '../../util';
+import { getActiveStory } from '../../util/users-util';
 import React from 'react';
 
 class Stories extends React.Component {
@@ -18,10 +20,25 @@ class Stories extends React.Component {
 
   async componentDidUpdate(previousProperties: Readonly<P>, previousState: Readonly<S>, snapshot: SS): void {
     const { room } = this.props;
-    if (previousProperties.room !== room) {
+    const { story } = this.state;
+    const previousRoom = previousProperties.room;
+    if ((room !== previousRoom) && ((!story) ||
+      (hasActiveDiscussion(room) && !hasActiveDiscussion(previousRoom)) ||
+      (!hasActiveDiscussion(room) && hasActiveDiscussion(previousRoom)) ||
+        this.isChangedUserMarkInCurrentStory)) {
       await this.getNewStoryAndPushItToState();
     }
   }
+
+  isChangedUserMarkInCurrentStory = () => {
+    const { story } = this.state;
+    const { room, currentUserName } = this.props;
+    const activeStory = getActiveStory(room);
+    if (!activeStory) return false;
+
+    if (!story.usersMarks[currentUserName] && activeStory.userMarks[currentUserName]) return true;
+    return story.usersMarks[currentUserName] !== activeStory.userMarks[currentUserName];
+  };
 
   getNewStoryAndPushItToState = async() => {
     const { room, service } = this.props;

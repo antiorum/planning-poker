@@ -56,8 +56,8 @@ class Room extends React.Component {
   }
 }
 
-const mapStateToProperties = ({ currentUserName, currentRoom }) => {
-  return { currentUserName, currentRoom };
+const mapStateToProperties = ({ currentUserName, currentRoom, signalRConnection }) => {
+  return { currentUserName, currentRoom, signalRConnection };
 };
 
 const mapDispatchToProperties = (dispatch, { service, match }) => {

@@ -49,8 +49,8 @@ class AppHeader extends React.Component {
   }
 }
 
-const mapStateToProperties = ({ currentUserName, currentRoom, signalRConnection }) => {
-  return { currentUserName, currentRoom, signalRConnection };
+const mapStateToProperties = ({ currentUserName, currentRoom }) => {
+  return { currentUserName, currentRoom };
 };
 
 const mapDispatchToProperties = (dispatch, { service }) => {
